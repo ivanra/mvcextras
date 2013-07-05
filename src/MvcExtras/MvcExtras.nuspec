@@ -1,0 +1,15 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://raw.github.com/ivanra/mvcextras/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/ivanra/mvcextras</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>MvcExtras adds a few extra bits of functionality to Microsoft ASP.NET MVC framework.</description>
+    <copyright>Copyright 2013 Ivan Radanovic</copyright>
+    <tags>AspNetMvc Mvc</tags>
+  </metadata>
+</package>

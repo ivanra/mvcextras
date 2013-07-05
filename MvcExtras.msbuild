@@ -1,0 +1,69 @@
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <BuildInParallel Condition=" $(BuildInParallel) == '' ">true</BuildInParallel>
+        <Configuration Condition=" $(Configuration) == '' ">Release</Configuration>
+        <BuildOutputDirectory>$(MSBuildThisFileDirectory)bin\$(Configuration)</BuildOutputDirectory>
+        <TestResultsDirectory>$(BuildOutputDirectory)\TestResults</TestResultsDirectory>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <SolutionsToBuild Include="MvcExtras.sln" />
+    </ItemGroup>
+
+    <Target Name="Clean">
+        <MSBuild
+            Projects="@(SolutionsToBuild)"
+            Targets="Clean"
+            Properties="Configuration=$(Configuration)" />
+        <RemoveDir Directories="$(BuildOutputDirectory)" />
+    </Target>
+
+    <Target Name="Build">
+        <Message Text="BuildInParallel: $(BuildInParallel); Configuration: $(Configuration)" />
+        <Message Text="TestResultsDirectory: $(TestResultsDirectory)" />
+        <MSBuild
+            Projects="@(SolutionsToBuild)"
+            Targets="Build"
+            Properties="Configuration=$(Configuration)" 
+            BuildInParallel="$(BuildInParallel)" />
+    </Target>
+
+    <Target Name="RunTests">
+        <ItemGroup>
+            <TestAssemblies Include="$(BuildOutputDirectory)\*.Test.dll" />
+            <XunitProject Include="$(MSBuildThisFileDirectory)tools\MvcExtras.xunit.targets">
+                <Properties>
+                    TestAssembly=%(TestAssemblies.FullPath);
+                    XmlPath=$(TestResultsDirectory)\%(TestAssemblies.FileName)-xunit.xml;
+                    HtmlPath=$(TestResultsDirectory)\%(TestAssemblies.FileName)-xunit.html
+                </Properties>
+            </XunitProject>
+        </ItemGroup>
+        <RemoveDir Directories="$(TestResultsDirectory)" />
+        <MakeDir Directories="$(TestResultsDirectory)" />
+        <MSBuild 
+            Projects="@(XunitProject)" 
+            Targets="Xunit"
+            BuildInParallel="$(BuildInParallel)" />
+    </Target>
+
+    <Target Name="UnitTest" DependsOnTargets="Build">
+        <CallTarget Targets="RunTests" />
+    </Target>
+
+    <Target Name="CI" DependsOnTargets="Clean;Build;UnitTest" />
+
+    <Target Name="Package" DependsOnTargets="Build">
+        <ItemGroup>
+            <ProjectsToPackage
+                Include="src\**\*.csproj"
+                Exclude="src\**\*.Test.csproj" />
+        </ItemGroup>
+        <MSBuild
+            Projects="@(ProjectsToPackage)"
+            Properties="Configuration=$(Configuration)"
+            Targets="BuildPackage" 
+            BuildInParallel="$(BuildInParallel)" />
+    </Target>
+
+</Project>

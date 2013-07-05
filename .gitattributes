@@ -1,0 +1,15 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+*.cs      text diff=csharp
+*.sln     text merge=union
+*.csproj  text merge=union
+*.config  text
+*.targets text
+*.nuspec  text
+*.msbuild text
+*.resx    text
+*.xunit   text
+*.txt     text
+*.md      text
+*.cmd     text
