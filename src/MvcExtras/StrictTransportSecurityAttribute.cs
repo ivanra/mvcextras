@@ -4,7 +4,7 @@ using System.Web.Mvc;
 namespace MvcExtras
 {
     /// <summary>
-    /// StrictTransportSecurityAttribute -- render Strict-Transport-Security HTTP header on response (as per RFC 6797: http://tools.ietf.org/html/rfc6797)
+    /// StrictTransportSecurityAttribute - render Strict-Transport-Security HTTP header on response (as per RFC 6797: http://tools.ietf.org/html/rfc6797).
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public class StrictTransportSecurityAttribute : FilterAttribute, IResultFilter
@@ -17,8 +17,14 @@ namespace MvcExtras
             MaxAge = DefaultMaxAge;
         }
 
+        /// <summary>
+        /// Value of the max-age directive. Default is 60 (seconds).
+        /// </summary>
         public int MaxAge { get; set; }
 
+        /// <summary>
+        /// Determines whether includeSubDomains directive is to be included as part of the header value. Default is false.
+        /// </summary>
         public bool IncludeSubdomains { get; set; }
 
         public virtual void OnResultExecuting(ResultExecutingContext filterContext)
@@ -34,7 +40,7 @@ namespace MvcExtras
             filterContext.HttpContext.Response.Headers.Set(StrictTransportSecurityHeader, headerValue);
         }
 
-        public void OnResultExecuted(ResultExecutedContext filterContext)
+        public virtual void OnResultExecuted(ResultExecutedContext filterContext)
         {
         }
     }
