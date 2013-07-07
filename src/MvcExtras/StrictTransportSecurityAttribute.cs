@@ -26,7 +26,7 @@ namespace MvcExtras
             if (filterContext == null)
                 throw new ArgumentNullException("filterContext");
 
-            //if (filterContext.HttpContext.Request.IsSecureConnection)
+            //if (!filterContext.HttpContext.Request.IsSecureConnection)
             //    return;
 
             var headerValue = String.Format("max-age={0}{1}", MaxAge,
