@@ -56,6 +56,7 @@
     <Compile Include="CsvFileResult`1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequireHttps2Attribute.cs" />
+    <Compile Include="StrictTransportSecurityAttribute.cs" />
     <Compile Include="XForwardedExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
