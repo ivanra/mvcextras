@@ -9,7 +9,7 @@ namespace MvcExtras
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public class StrictTransportSecurityAttribute : FilterAttribute, IResultFilter
     {
-        private const string StrictTransportPolicyHeader = "Strict-Transport-Security";
+        private const string StrictTransportSecurityHeader = "Strict-Transport-Security";
         private const int DefaultMaxAge = 60;
 
         public StrictTransportSecurityAttribute()
@@ -21,7 +21,7 @@ namespace MvcExtras
 
         public bool IncludeSubdomains { get; set; }
 
-        public void OnResultExecuting(ResultExecutingContext filterContext)
+        public virtual void OnResultExecuting(ResultExecutingContext filterContext)
         {
             if (filterContext == null)
                 throw new ArgumentNullException("filterContext");
@@ -31,7 +31,7 @@ namespace MvcExtras
 
             var headerValue = String.Format("max-age={0}{1}", MaxAge,
                                             IncludeSubdomains ? "; includeSubDomains" : String.Empty);
-            filterContext.HttpContext.Response.AddHeader(StrictTransportPolicyHeader, headerValue);
+            filterContext.HttpContext.Response.Headers.Set(StrictTransportSecurityHeader, headerValue);
         }
 
         public void OnResultExecuted(ResultExecutedContext filterContext)

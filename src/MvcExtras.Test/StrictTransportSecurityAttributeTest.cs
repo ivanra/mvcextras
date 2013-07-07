@@ -23,8 +23,9 @@ namespace MvcExtras.Test
         public void DefaultMaxAge(int? maxAge, bool? includeSubdomains, string expectedHeaderValue)
         {
             var mockResultExecutingContext = new Mock<ResultExecutingContext>();
+
             mockResultExecutingContext.Setup(
-                c => c.HttpContext.Response.AddHeader("Strict-Transport-Security", expectedHeaderValue))
+                c => c.HttpContext.Response.Headers.Set("Strict-Transport-Security", expectedHeaderValue))
                                       .Verifiable("Invalid Strict-Transport-Security header.");
             var resultExecutingContext = mockResultExecutingContext.Object;
             
