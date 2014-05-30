@@ -1,5 +1,4 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/ltyius3n09pum0qo)](https://ci.appveyor.com/project/ivanra/mvcextras)
-
 # MvcExtras
 
 A few extra bits of functionality to be used with Microsoft ASP.NET MVC framework.
